@@ -45,3 +45,6 @@ app.*.map.json
 # Ignore all contents of the build folder
 /build/*
 
+.firebase
+.firebaserc
+firebase.json

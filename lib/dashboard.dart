@@ -1,6 +1,6 @@
+import 'package:allowance_merchant/enter_full_price.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -8,23 +8,14 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
-  int _counter = 0;
   String result = "";
 
-  void _incrementCounter() async {
-    var res = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const SimpleBarcodeScannerPage(),
-                    ));
-                setState(() {
-                  if (res is String) {
-                    result = res;
-                  }
-                });
+  void enterFullPrice()
+  {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => EnterFullPrice()));
   }
 
-  void _decrementCounter() {
+  void signUp() {
 	FirebaseAuth.instance.signOut();
   }
 
@@ -38,29 +29,12 @@ class _DashboardState extends State<Dashboard> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Counter Value:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-            SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                FloatingActionButton(
-                  onPressed: _decrementCounter,
-                  tooltip: 'Decrement',
-                  child: Icon(Icons.remove),
-                ),
-                SizedBox(width: 20),
-                FloatingActionButton(
-                  onPressed: _incrementCounter,
-                  tooltip: 'Increment',
-                  child: Icon(Icons.add),
-                ),
-              ],
+            ElevatedButton(
+              onPressed: () => enterFullPrice(),
+              child: Text("Complete Sale"),
+              style: ButtonStyle(
+                fixedSize: MaterialStateProperty.all(Size(200, 60)),
+              )
             ),
           ],
         ),
