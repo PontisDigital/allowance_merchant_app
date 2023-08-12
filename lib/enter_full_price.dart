@@ -1,3 +1,4 @@
+import 'package:allowance_merchant/complete_sale_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:simple_barcode_scanner/enum.dart';
@@ -46,6 +47,14 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
     });
   }
 
+  void completeSale(String chargeCustomer, String saleId)
+  {
+	Navigator.pushReplacement(
+	  context, 
+	  MaterialPageRoute(builder: (context) => CompleteSale(customerShouldPay: chargeCustomer,saleId: saleId,))
+	);
+  }
+
   Future<void> submitData() async
   {
     // Call the scanner to get the QR code
@@ -70,6 +79,12 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
 
         // Handle the API response here
         print('API Response: ${response.statusCode}');
+
+		if (response.statusCode == 200)
+		{
+		  Map<String, dynamic> json = jsonDecode(response.body);
+		  completeSale(json["charge_user"], json["sale_id"]);
+		}
       }
       catch (error)
       {

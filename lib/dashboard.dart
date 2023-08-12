@@ -31,7 +31,7 @@ class _DashboardState extends State<Dashboard> {
           children: <Widget>[
             ElevatedButton(
               onPressed: () => enterFullPrice(),
-              child: Text("Complete Sale"),
+              child: Text("Begin Sale"),
               style: ButtonStyle(
                 fixedSize: MaterialStateProperty.all(Size(200, 60)),
               )
