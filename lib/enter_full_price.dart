@@ -1,26 +1,9 @@
-import 'package:allowance_merchant/complete_sale_screen.dart';
+import 'package:allowance_merchant/scan_qr_code.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:simple_barcode_scanner/enum.dart';
-import 'package:simple_barcode_scanner/simple_barcode_scanner.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-class FormData {
-  final String qrCode;
-  final double price;
-  final String authToken;
-
-  FormData({required this.qrCode, required this.price, required this.authToken});
-
-  Map<String, dynamic> toJson() {
-    return {
-      'user_id': qrCode,
-      'sale_price': price,
-      'auth_token': authToken,
-    };
-  }
-}
 
 class EnterFullPrice extends StatefulWidget {
   @override
@@ -34,70 +17,8 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
   final Uri apiUrl = Uri.parse('https://api.allowance.fund/beginSale');
 
   Future<void> openScanner() async {
-    var res = await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const SimpleBarcodeScannerPage(scanType: ScanType.qr),
-      ),
-    );
-    setState(() {
-      if (res is String) {
-        user_id = res;
-      }
-    });
-  }
-
-  void completeSale(String chargeCustomer, String saleId)
-  {
-	Navigator.pushReplacement(
-	  context, 
-	  MaterialPageRoute(builder: (context) => CompleteSale(customerShouldPay: chargeCustomer,saleId: saleId,))
-	);
-  }
-
-  Future<void> submitData() async
-  {
-    // Call the scanner to get the QR code
-    await openScanner();
-
-    if (user_id.isNotEmpty && sale_price > 0)
-    {
-      FormData formData = FormData(qrCode: user_id, price: sale_price, authToken: (await FirebaseAuth.instance.currentUser!.getIdToken()).toString());
-
-      // Convert formData to JSON
-      Map<String, dynamic> jsonData = formData.toJson();
-
-      // Send jsonData to API using your preferred HTTP library (e.g., Dio, http)
-      // Make sure to handle API response and errors accordingly
-      try
-      {
-        final response = await http.post(
-          apiUrl,
-          headers: {'Content-Type': 'application/json'},
-          body: jsonEncode(jsonData),
-        );
-
-        // Handle the API response here
-        print('API Response: ${response.statusCode}');
-
-		if (response.statusCode == 200)
-		{
-		  Map<String, dynamic> json = jsonDecode(response.body);
-		  completeSale(json["charge_user"], json["sale_id"]);
-		}
-      }
-      catch (error)
-      {
-        // Handle API error here
-        print('API Error: $error');
-      }
-    }
-    else
-    {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Please scan QR code and enter price.')),
-        );
-    }
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => QRViewPage(sale_price: sale_price,)));
   }
 
   void signOut() {
@@ -135,7 +56,7 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
               ),
               SizedBox(height: 128.0),
               ElevatedButton(
-                onPressed: () => submitData(),
+                onPressed: () => openScanner(),
                 child: Text("Submit"),
                 style: ButtonStyle(
                   fixedSize: MaterialStateProperty.all(Size(200, 60)),
@@ -149,4 +70,3 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
     );
   }
 }
-
