@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
 	@override
 	Widget build(BuildContext context) {
 		return MaterialApp(
-			title: 'Flutter',
+			title: 'Allowance Business Portal',
 			debugShowCheckedModeBanner: false,
 			theme: ThemeData(
 			primarySwatch: Colors.blue,
