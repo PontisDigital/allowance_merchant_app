@@ -89,7 +89,7 @@ class _CompleteSaleState extends State<CompleteSale> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            "Please charge the customer: ",
+            "Please deduct: ",
             style: SafeGoogleFont(
               'Outfit',
               fontSize: 30,
