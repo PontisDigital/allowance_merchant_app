@@ -46,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
     await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Dashboard()));
+        context, MaterialPageRoute(builder: (context) => Dashboard(minPosFlow: email == "gtvapes0@gmail.com")));
   }
 
   @override

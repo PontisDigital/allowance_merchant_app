@@ -21,48 +21,16 @@ class ApiData {
   }
 }
 
-class CompleteSale extends StatefulWidget {
+class MinFlowCompleteSale extends StatefulWidget {
   @override
-  _CompleteSaleState createState() => _CompleteSaleState();
+  _MinFlowCompleteSaleState createState() => _MinFlowCompleteSaleState();
 
-  final String customerShouldPay;
+  final String deduct;
   final String saleId;
-  CompleteSale({required this.customerShouldPay, required this.saleId});
+  MinFlowCompleteSale({required this.deduct, required this.saleId});
 }
 
-class _CompleteSaleState extends State<CompleteSale> {
-  String result = "";
-  final Uri apiUrl = Uri.parse('https://api.allowance.fund/completeSale');
-
-  Future<void> completeSale() async {
-    ApiData apiData = ApiData(
-        saleId: widget.saleId,
-        authToken:
-            (await FirebaseAuth.instance.currentUser!.getIdToken()).toString());
-
-    // Convert formData to JSON
-    Map<String, dynamic> jsonData = apiData.toJson();
-
-    // Send jsonData to API using your preferred HTTP library (e.g., Dio, http)
-    // Make sure to handle API response and errors accordingly
-    try {
-      final response = await http.post(
-        apiUrl,
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(jsonData),
-      );
-
-      // Handle the API response here
-      print('API Response: ${response.statusCode}');
-
-      if (response.statusCode == 200) {
-        nextCustomer();
-      }
-    } catch (error) {
-      // Handle API error here
-      print('API Error: $error');
-    }
-  }
+class _MinFlowCompleteSaleState extends State<MinFlowCompleteSale> {
 
   void nextCustomer() async {
     var email = FirebaseAuth.instance.currentUser!.email;
@@ -103,7 +71,7 @@ class _CompleteSaleState extends State<CompleteSale> {
             ),
           ),
           Text(
-            '\$${widget.customerShouldPay}',
+            '\$${widget.deduct}',
             style: SafeGoogleFont(
               'Outfit',
               fontSize: 36,
@@ -113,8 +81,8 @@ class _CompleteSaleState extends State<CompleteSale> {
           ),
           SizedBox(height: 20),
           CustomButton(
-            onPressed: () => completeSale(),
-            text: "Complete Sale",
+            onPressed: () => nextCustomer(),
+            text: "Next Customer",
             minHeight: 80,
           ),
         ],
