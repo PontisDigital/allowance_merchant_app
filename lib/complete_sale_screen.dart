@@ -56,7 +56,6 @@ class _CompleteSaleState extends State<CompleteSale> {
       print('API Response: ${response.statusCode}');
 
       if (response.statusCode == 200) {
-        nextCustomer();
       }
     } catch (error) {
       // Handle API error here
@@ -113,7 +112,7 @@ class _CompleteSaleState extends State<CompleteSale> {
           ),
           SizedBox(height: 20),
           CustomButton(
-            onPressed: () => completeSale(),
+            onPressed: () {completeSale(); nextCustomer();},
             text: "Complete Sale",
             minHeight: 80,
           ),
