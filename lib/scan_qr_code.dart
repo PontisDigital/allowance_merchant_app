@@ -14,22 +14,25 @@ class FormData {
   final String qrCode;
   final double price;
   final String authToken;
+  final bool isPromotional;
 
   FormData(
-      {required this.qrCode, required this.price, required this.authToken});
+      {required this.qrCode, required this.price, required this.authToken, required this.isPromotional});
 
   Map<String, dynamic> toJson() {
     return {
       'user_id': qrCode,
       'sale_price': price,
       'auth_token': authToken,
+      'is_promotional': isPromotional,
     };
   }
 }
 
 class QRViewPage extends StatefulWidget {
   final double sale_price;
-  QRViewPage({Key? key, required this.sale_price}) : super(key: key);
+  final bool isPromotional;
+  QRViewPage({Key? key, required this.sale_price, required this.isPromotional}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _QRViewPageState();
@@ -57,6 +60,7 @@ class _QRViewPageState extends State<QRViewPage> {
       FormData formData = FormData(
           qrCode: result!.code ?? "ERROR",
           price: widget.sale_price,
+		  isPromotional: widget.isPromotional,
           authToken: (await FirebaseAuth.instance.currentUser!.getIdToken())
               .toString());
 

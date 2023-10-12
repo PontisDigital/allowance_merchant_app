@@ -60,7 +60,7 @@ class MyApp extends StatelessWidget {
 						var email = FirebaseAuth.instance.currentUser!.email;
 						return ChangeNotifierProvider(
 								create: (context) => UserHomeDataProvider(),
-									child: Dashboard(minPosFlow: email == "gtvapes0@gmail.com"),
+									child: Dashboard(minPosFlow: email == "gtvapes0@gmail.com", isHop: email == "hopcask@gmail.com"),
 						);
 					}
 					else

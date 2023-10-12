@@ -5,11 +5,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
-  Dashboard({super.key, required this.minPosFlow});
+  Dashboard({super.key, required this.minPosFlow, required this.isHop});
   @override
   _DashboardState createState() => _DashboardState();
 
   bool minPosFlow;
+  bool isHop;
 }
 
 class _DashboardState extends State<Dashboard> {
@@ -51,7 +52,7 @@ class _DashboardState extends State<Dashboard> {
 
   void enterFullPrice() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => EnterFullPrice()));
+        context, MaterialPageRoute(builder: (context) => EnterFullPrice(isHop: widget.isHop)));
   }
 
   void minFlow() {

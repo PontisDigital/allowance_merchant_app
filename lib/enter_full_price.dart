@@ -9,11 +9,17 @@ import 'package:http/http.dart' as http;
 class EnterFullPrice extends StatefulWidget {
   @override
   _EnterFullPriceState createState() => _EnterFullPriceState();
+
+  EnterFullPrice({required this.isHop});
+
+  bool isHop;
 }
 
 class _EnterFullPriceState extends State<EnterFullPrice> {
   String user_id = "";
   double sale_price = 0.0;
+
+  bool isPromotional = false;
 
   final Uri apiUrl = Uri.parse('https://api.allowance.fund/beginSale');
 
@@ -23,6 +29,7 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
         MaterialPageRoute(
             builder: (context) => QRViewPage(
                   sale_price: sale_price,
+				  isPromotional: isPromotional,
                 )));
   }
 
@@ -60,13 +67,34 @@ class _EnterFullPriceState extends State<EnterFullPrice> {
                 },
                 hintText: "Enter Full Price",
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
-				  textAlign: TextAlign.center,
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 128.0),
+              Visibility(
+                visible: widget.isHop,
+                child: Card(
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                      Text("Are they buying a promotional item?"),
+                      Checkbox(
+                        value: isPromotional,
+                        onChanged: (val) {
+                          setState(() {
+                            isPromotional = val!;
+                          });
+                        },
+                      )
+                    ])),
+              ),
+              Visibility(
+                visible: widget.isHop,
+                child: SizedBox(height: 64.0),
+              ),
               CustomButton(
                 onPressed: () => openScanner(),
                 text: "Submit",
-				minHeight: 80,
+                minHeight: 80,
               ),
             ],
           ),

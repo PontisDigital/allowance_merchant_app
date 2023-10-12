@@ -38,7 +38,7 @@ class _MinFlowCompleteSaleState extends State<MinFlowCompleteSale> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                Dashboard(minPosFlow: email == "gtvapes0@gmail.com")),
+                Dashboard(minPosFlow: email == "gtvapes0@gmail.com", isHop: email == "hopcask@gmail.com")),
         (route) => false);
   }
 

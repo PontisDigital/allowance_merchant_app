@@ -69,7 +69,7 @@ class _CompleteSaleState extends State<CompleteSale> {
         context,
         MaterialPageRoute(
             builder: (context) =>
-                Dashboard(minPosFlow: email == "gtvapes0@gmail.com")),
+                Dashboard(minPosFlow: email == "gtvapes0@gmail.com", isHop: email == "hopcask@gmail.com")),
         (route) => false);
   }
 
